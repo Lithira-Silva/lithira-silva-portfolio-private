@@ -121,7 +121,7 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 
 ## 📞 Contact
 
-Lithira Silva - [lithira@example.com](mailto:lithira@example.com)
+Lithira Silva - llithira3@gamil.com
 
 Project Link: [https://github.com/lithirasilva/portfolio](https://github.com/lithirasilva/portfolio)
     languageOptions: {
