@@ -20,24 +20,24 @@ const Header: React.FC = () => {
   ]
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-black">
       <nav className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Simple Logo */}
           <div 
-            className="text-xl font-bold text-white cursor-pointer"
+            className="text-2xl font-bold text-white cursor-pointer"
             onClick={() => scrollToSection('hero')}
           >
             Lithira Silva
           </div>
 
-          {/* Simple Desktop Navigation */}
+          {/* Desktop Navigation */}
           <ul className="hidden md:flex space-x-6">
             {navItems.map((item) => (
               <li key={item.id}>
                 <button
                   onClick={() => scrollToSection(item.id)}
-                  className="text-gray-300 hover:text-white transition-colors"
+                  className="text-gray-300 font-medium focus:outline-none"
                 >
                   {item.label}
                 </button>
@@ -45,24 +45,28 @@ const Header: React.FC = () => {
             ))}
           </ul>
 
-          {/* Simple Mobile Menu Button */}
+          {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-white"
+            className="md:hidden text-white focus:outline-none"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            {isMobileMenuOpen ? '✕' : '☰'}
+            <div className="w-6 h-6 flex flex-col justify-center items-center">
+              <div className="w-6 h-0.5 bg-current"></div>
+              <div className="w-6 h-0.5 bg-current mt-1"></div>
+              <div className="w-6 h-0.5 bg-current mt-1"></div>
+            </div>
           </button>
         </div>
 
-        {/* Simple Mobile Menu */}
+        {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden mt-4">
-            <ul className="space-y-3">
+            <ul className="space-y-2">
               {navItems.map((item) => (
                 <li key={item.id}>
                   <button
                     onClick={() => scrollToSection(item.id)}
-                    className="block text-gray-300 hover:text-white transition-colors"
+                    className="block w-full text-left p-2 text-gray-300 focus:outline-none"
                   >
                     {item.label}
                   </button>

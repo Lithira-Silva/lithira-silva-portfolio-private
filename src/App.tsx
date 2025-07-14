@@ -12,7 +12,7 @@ import './styles/globals.css'
 
 function App() {
   return (
-    <div className="min-h-screen bg-black text-white transition-colors duration-300">
+    <div className="min-h-screen text-white transition-colors duration-300 bg-black">
       <StarField />
       <Header />
       <main>
