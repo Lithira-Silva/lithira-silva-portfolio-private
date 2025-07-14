@@ -8,11 +8,13 @@ import Contact from './sections/Contact'
 import Education from './sections/Education'
 import Footer from './sections/Footer'
 import StarField from './components/StarField'
+import ScrollProgress from './components/ScrollProgress'
 import './styles/globals.css'
 
 function App() {
   return (
     <div className="min-h-screen text-white transition-colors duration-300 bg-black">
+      <ScrollProgress />
       <StarField />
       <Header />
       <main>
