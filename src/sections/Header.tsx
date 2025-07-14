@@ -5,29 +5,53 @@ const Header: React.FC = () => {
   const [activeSection, setActiveSection] = useState('hero')
   const [isScrolled, setIsScrolled] = useState(false)
 
-  // Simple scroll detection
+  // Enhanced scroll detection with section tracking
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
+      
+      // Additional scroll-based section detection as fallback
+      const sections = ['hero', 'about', 'education', 'skills', 'projects', 'contact']
+      const headerHeight = 80
+      const scrollPosition = window.scrollY + headerHeight + 100 // Account for header and some buffer
+      
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const element = document.getElementById(sections[i])
+        if (element && element.offsetTop <= scrollPosition) {
+          setActiveSection(sections[i])
+          break
+        }
+      }
     }
 
+    handleScroll() // Run once on mount
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Simple intersection observer
+  // Enhanced intersection observer for better section detection
   useEffect(() => {
     const observerOptions = {
-      rootMargin: '-20% 0px -70% 0px',
-      threshold: 0.5
+      rootMargin: '-100px 0px -60% 0px', // Start detecting when section is 100px from top
+      threshold: [0.1, 0.5, 0.9] // Multiple thresholds for better detection
     }
 
     const observer = new IntersectionObserver((entries) => {
+      // Find the section that's most visible
+      let mostVisibleSection = null
+      let maxIntersectionRatio = 0
+
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id)
+        if (entry.isIntersecting && entry.intersectionRatio > maxIntersectionRatio) {
+          maxIntersectionRatio = entry.intersectionRatio
+          mostVisibleSection = entry.target.id
         }
       })
+
+      // Update active section if we found a visible one
+      if (mostVisibleSection) {
+        setActiveSection(mostVisibleSection)
+      }
     }, observerOptions)
 
     // Observe all sections
@@ -103,14 +127,18 @@ const Header: React.FC = () => {
               <li key={item.id}>
                 <button
                   onClick={() => scrollToSection(item.id)}
-                  className={`px-4 py-2 text-sm font-medium transition-colors duration-200 focus:outline-none ${
+                  className={`relative px-4 py-2 text-sm font-medium transition-all duration-200 focus:outline-none rounded-md ${
                     activeSection === item.id
-                      ? 'text-white'
-                      : 'text-white/70 hover:text-white'
+                      ? 'text-white bg-white/10'
+                      : 'text-white/70 hover:text-white hover:bg-white/5'
                   }`}
                   aria-label={`Navigate to ${item.label} section`}
                 >
                   {item.label}
+                  {/* Active indicator underline */}
+                  {activeSection === item.id && (
+                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-white rounded-full"></div>
+                  )}
                 </button>
               </li>
             ))}
@@ -148,14 +176,18 @@ const Header: React.FC = () => {
                   <li key={item.id}>
                     <button
                       onClick={() => scrollToSection(item.id)}
-                      className={`block w-full text-left py-3 px-4 text-base transition-colors duration-200 focus:outline-none ${
+                      className={`relative flex items-center justify-between w-full text-left py-3 px-4 text-base transition-all duration-200 focus:outline-none rounded-md ${
                         activeSection === item.id
-                          ? 'text-white'
-                          : 'text-white/70 hover:text-white'
+                          ? 'text-white bg-white/10'
+                          : 'text-white/70 hover:text-white hover:bg-white/5'
                       }`}
                       aria-label={`Navigate to ${item.label} section`}
                     >
-                      {item.label}
+                      <span>{item.label}</span>
+                      {/* Active indicator dot */}
+                      {activeSection === item.id && (
+                        <div className="w-2 h-2 bg-white rounded-full"></div>
+                      )}
                     </button>
                   </li>
                 ))}
