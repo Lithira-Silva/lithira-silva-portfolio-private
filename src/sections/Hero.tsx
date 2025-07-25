@@ -137,7 +137,7 @@ const Hero: React.FC = () => {
               </svg>
             </a>
             <a
-              href="mailto:lithira@example.com"
+              href="mailto:llithira3@gmail.com"
               className="text-gray-400 hover:text-secondary transition-all duration-300 transform hover:scale-110 icon-hover"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

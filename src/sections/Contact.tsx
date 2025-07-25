@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import emailjs from '@emailjs/browser'
+import { emailjsConfig, validateEmailjsConfig } from '../config/emailjs'
 import Button from '../components/Button'
 import { 
   HiMail, 
@@ -17,13 +19,44 @@ export default function Contact() {
     email: '',
     message: ''
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission here
-    console.log('Form submitted:', formData)
-    // Reset form
-    setFormData({ name: '', email: '', message: '' })
+    setIsSubmitting(true)
+    setSubmitStatus('idle')
+    
+    // Validate EmailJS configuration
+    if (!validateEmailjsConfig()) {
+      setSubmitStatus('error')
+      setIsSubmitting(false)
+      return
+    }
+    
+    try {
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        message: formData.message,
+        to_email: emailjsConfig.recipientEmail
+      }
+      
+      await emailjs.send(
+        emailjsConfig.serviceId, 
+        emailjsConfig.templateId, 
+        templateParams, 
+        emailjsConfig.publicKey
+      )
+      
+      setSubmitStatus('success')
+      setFormData({ name: '', email: '', message: '' })
+    } catch (error) {
+      console.error('Failed to send email:', error)
+      setSubmitStatus('error')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -35,25 +68,25 @@ export default function Contact() {
 
   const contactInfo = [
     {
-      icon: <HiMail className="w-6 h-6 text-secondary group-hover/item:text-secondary-light transition-colors duration-300" />,
+      icon: <HiMail className="w-6 h-6 transition-colors duration-300 text-secondary group-hover/item:text-secondary-light" />,
       label: "Email",
-      value: "lithira.silva@portfolio.dev",
-      link: "mailto:lithira.silva@portfolio.dev"
+      value: "llithira3@gmail.com",
+      link: "mailto:llithira3@gmail.com"
     },
     {
-      icon: <HiPhone className="w-6 h-6 text-secondary group-hover/item:text-secondary-light transition-colors duration-300" />,
+      icon: <HiPhone className="w-6 h-6 transition-colors duration-300 text-secondary group-hover/item:text-secondary-light" />,
       label: "Phone",
       value: "+1 (555) 123-4567",
       link: "tel:+15551234567"
     },
     {
-      icon: <HiLocationMarker className="w-6 h-6 text-secondary group-hover/item:text-secondary-light transition-colors duration-300" />,
+      icon: <HiLocationMarker className="w-6 h-6 transition-colors duration-300 text-secondary group-hover/item:text-secondary-light" />,
       label: "Location",
       value: "San Francisco, CA",
       link: "https://maps.google.com/?q=San+Francisco,+CA"
     },
     {
-      icon: <HiBriefcase className="w-6 h-6 text-secondary group-hover/item:text-secondary-light transition-colors duration-300" />,
+      icon: <HiBriefcase className="w-6 h-6 transition-colors duration-300 text-secondary group-hover/item:text-secondary-light" />,
       label: "LinkedIn",
       value: "/in/lithirasilva",
       link: "https://linkedin.com/in/lithirasilva"
@@ -61,25 +94,40 @@ export default function Contact() {
   ]
 
   return (
-    <section id="contact" className="py-20 bg-black relative overflow-hidden">
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 font-heading">
+    <section id="contact" className="relative py-20 overflow-hidden bg-black">
+      <div className="container relative z-10 px-6 mx-auto">
+        <div className="mb-16 text-center">
+          <h2 className="mb-4 text-4xl font-bold text-white md:text-5xl font-heading">
             Let's Work <span className="text-white">Together</span>
           </h2>
-          <p className="text-gray-300 text-lg max-w-2xl mx-auto hover:text-gray-200 transition-colors duration-300 font-sans leading-relaxed">
+          <p className="max-w-2xl mx-auto font-sans text-lg leading-relaxed text-gray-300 transition-colors duration-300 hover:text-gray-200">
             Ready to bring your ideas to life? Get in touch and let's create something amazing together.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+        <div className="grid max-w-6xl gap-12 mx-auto lg:grid-cols-2">
           {/* Contact Form */}
-          <div className="group bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all duration-500 hover:bg-white/8 hover:shadow-xl hover:shadow-white/10">
-            <h3 className="text-2xl font-bold text-white mb-6 group-hover:text-gray-200 transition-colors duration-300 font-heading">Send a Message</h3>
+          <div className="p-8 transition-all duration-500 border group bg-white/5 backdrop-blur-sm rounded-2xl border-white/10 hover:border-white/20 hover:bg-white/8 hover:shadow-xl hover:shadow-white/10">
+            <h3 className="mb-6 text-2xl font-bold text-white transition-colors duration-300 group-hover:text-gray-200 font-heading">Send a Message</h3>
             
             <form onSubmit={handleSubmit} className="space-y-6">
+              {submitStatus === 'success' && (
+                <div className="p-4 font-sans text-green-300 border rounded-lg bg-green-500/20 border-green-500/40">
+                  ✅ Message sent successfully! I'll get back to you soon.
+                </div>
+              )}
+              
+              {submitStatus === 'error' && (
+                <div className="p-4 font-sans text-red-300 border rounded-lg bg-red-500/20 border-red-500/40">
+                  ❌ Failed to send message. Please try again or email me directly at{' '}
+                  <a href="mailto:llithira3@gmail.com" className="underline hover:text-red-200">
+                    llithira3@gmail.com
+                  </a>
+                </div>
+              )}
+              
               <div>
-                <label htmlFor="name" className="block text-gray-300 mb-2 font-medium font-sans">
+                <label htmlFor="name" className="block mb-2 font-sans font-medium text-gray-300">
                   Your Name
                 </label>
                 <input
@@ -89,13 +137,14 @@ export default function Contact() {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-gray-800/60 border border-gray-600/40 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/30 transition-all duration-300 hover:bg-gray-800/80 hover:border-secondary/40 backdrop-blur-sm font-sans"
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-3 font-sans text-white placeholder-gray-400 transition-all duration-300 border rounded-lg bg-gray-800/60 border-gray-600/40 focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/30 hover:bg-gray-800/80 hover:border-secondary/40 backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed"
                   placeholder="Lithira Silva"
                 />
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-gray-300 mb-2 font-medium font-sans">
+                <label htmlFor="email" className="block mb-2 font-sans font-medium text-gray-300">
                   Email Address
                 </label>
                 <input
@@ -105,13 +154,14 @@ export default function Contact() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-gray-800/60 border border-gray-600/40 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/30 transition-all duration-300 hover:bg-gray-800/80 hover:border-secondary/40 backdrop-blur-sm font-sans"
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-3 font-sans text-white placeholder-gray-400 transition-all duration-300 border rounded-lg bg-gray-800/60 border-gray-600/40 focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/30 hover:bg-gray-800/80 hover:border-secondary/40 backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed"
                   placeholder="john@example.com"
                 />
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-gray-300 mb-2 font-medium font-sans">
+                <label htmlFor="message" className="block mb-2 font-sans font-medium text-gray-300">
                   Message
                 </label>
                 <textarea
@@ -121,7 +171,8 @@ export default function Contact() {
                   onChange={handleChange}
                   required
                   rows={5}
-                  className="w-full px-4 py-3 bg-gray-800/60 border border-gray-600/40 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/30 transition-all duration-300 resize-none hover:bg-gray-800/80 hover:border-secondary/40 backdrop-blur-sm font-sans"
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-3 font-sans text-white placeholder-gray-400 transition-all duration-300 border rounded-lg resize-none bg-gray-800/60 border-gray-600/40 focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/30 hover:bg-gray-800/80 hover:border-secondary/40 backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed"
                   placeholder="Tell me about your project..."
                 />
               </div>
@@ -131,10 +182,11 @@ export default function Contact() {
                 variant="primary"
                 size="large"
                 className="w-full"
+                disabled={isSubmitting}
               >
                 <span className="flex items-center gap-2">
-                  <HiPaperAirplane className="w-5 h-5" />
-                  Send Message
+                  <HiPaperAirplane className={`w-5 h-5 ${isSubmitting ? 'animate-pulse' : ''}`} />
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
                 </span>
               </Button>
             </form>
@@ -142,8 +194,8 @@ export default function Contact() {
 
           {/* Contact Information */}
           <div className="space-y-8">
-            <div className="group bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all duration-500 hover:bg-white/8 hover:shadow-xl hover:shadow-white/10">
-              <h3 className="text-2xl font-bold text-white mb-6 group-hover:text-gray-200 transition-colors duration-300 font-heading">Get in Touch</h3>
+            <div className="p-8 transition-all duration-500 border group bg-white/5 backdrop-blur-sm rounded-2xl border-white/10 hover:border-white/20 hover:bg-white/8 hover:shadow-xl hover:shadow-white/10">
+              <h3 className="mb-6 text-2xl font-bold text-white transition-colors duration-300 group-hover:text-gray-200 font-heading">Get in Touch</h3>
               
               <div className="space-y-4">
                 {contactInfo.map((info, index) => (
@@ -152,14 +204,14 @@ export default function Contact() {
                     href={info.link}
                     target={info.link.startsWith('http') ? '_blank' : undefined}
                     rel={info.link.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    className="flex items-center p-4 bg-white/5 rounded-lg border border-white/10 hover:bg-white/10 hover:border-secondary/30 transition-all duration-300 group/item transform hover:scale-105 hover:shadow-lg hover:shadow-amber/10"
+                    className="flex items-center p-4 transition-all duration-300 transform border rounded-lg bg-white/5 border-white/10 hover:bg-white/10 hover:border-secondary/30 group/item hover:scale-105 hover:shadow-lg hover:shadow-amber/10"
                   >
-                    <div className="flex-shrink-0 mr-4 group-hover/item:scale-125 group-hover/item:rotate-12 transition-all duration-500">
+                    <div className="flex-shrink-0 mr-4 transition-all duration-500 group-hover/item:scale-125 group-hover/item:rotate-12">
                       {info.icon}
                     </div>
                     <div>
-                      <p className="text-gray-400 text-sm group-hover/item:text-gray-300 transition-colors duration-300 font-sans">{info.label}</p>
-                      <p className="text-white font-medium group-hover/item:text-gray-200 transition-colors font-sans">
+                      <p className="font-sans text-sm text-gray-400 transition-colors duration-300 group-hover/item:text-gray-300">{info.label}</p>
+                      <p className="font-sans font-medium text-white transition-colors group-hover/item:text-gray-200">
                         {info.value}
                       </p>
                     </div>
@@ -169,8 +221,8 @@ export default function Contact() {
             </div>
 
             {/* Social Links */}
-            <div className="group bg-gray-800/60 backdrop-blur-sm rounded-2xl p-8 border border-gray-600/30 hover:border-secondary/40 transition-all duration-500 hover:bg-gray-800/80 hover:shadow-xl hover:shadow-amber/10">
-              <h3 className="text-xl font-bold text-white mb-6 group-hover:text-secondary transition-colors duration-300 font-heading">Follow Me</h3>
+            <div className="p-8 transition-all duration-500 border group bg-gray-800/60 backdrop-blur-sm rounded-2xl border-gray-600/30 hover:border-secondary/40 hover:bg-gray-800/80 hover:shadow-xl hover:shadow-amber/10">
+              <h3 className="mb-6 text-xl font-bold text-white transition-colors duration-300 group-hover:text-secondary font-heading">Follow Me</h3>
               
               <div className="flex space-x-4">
                 {[
@@ -184,7 +236,7 @@ export default function Contact() {
                     href={social.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 bg-gray-700/50 rounded-lg flex items-center justify-center text-secondary hover:bg-secondary hover:text-black transition-all duration-500 hover:shadow-lg hover:shadow-amber/30 border border-secondary/15 hover:border-secondary hover:scale-110 transform"
+                    className="flex items-center justify-center w-12 h-12 transition-all duration-500 transform border rounded-lg bg-gray-700/50 text-secondary hover:bg-secondary hover:text-black hover:shadow-lg hover:shadow-amber/30 border-secondary/15 hover:border-secondary hover:scale-110"
                     title={social.name}
                   >
                     {social.icon}
