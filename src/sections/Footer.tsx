@@ -131,10 +131,6 @@ const Footer: React.FC = () => {
             </div>
             
             <div className="flex items-center space-x-6">
-              <div className="text-gray-400 text-sm">
-                Built with ❤️ using React & Tailwind CSS
-              </div>
-              
               {/* Back to Top Button */}
               <button
                 onClick={scrollToTop}
