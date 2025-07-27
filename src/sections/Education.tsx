@@ -2,9 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import { 
   HiAcademicCap, 
   HiLocationMarker, 
-  HiTrendingUp,
-  HiFire,
-  HiLightningBolt,
   HiCalendar
 } from 'react-icons/hi';
 
@@ -16,53 +13,41 @@ const Education = () => {
     {
       id: 1,
       degree: "BSc (Hons) in Information Technology",
-      shortTitle: "IT DEGREE",
       specialization: "Software Engineering & Development",
-      institution: "SLIIT",
-      fullInstitution: "Sri Lanka Institute of Information Technology",
-      level: "Undergraduate Program",
+      institution: "Sri Lanka Institute of Information Technology",
+      shortInstitution: "SLIIT",
       duration: "2022 - Present",
       location: "Sri Lanka",
       status: "In Progress",
       progress: 75,
-      highlights: ["Software Engineering", "Web Development", "Database Systems", "Mobile Apps"],
-      icon: HiTrendingUp,
-      accentColor: "blue",
-      type: "university"
+      level: "Undergraduate Program",
+      logo: "/images/schools/sliit-logo.png" // Add your SLIIT logo here
     },
     {
       id: 2,
       degree: "G.C.E. Advanced Level",
-      shortTitle: "A/L COMMERCE",
       specialization: "Commerce Stream (English Medium)",
-      institution: "D.S. Senanayake College",
-      fullInstitution: "D. S. Senanayake College, Colombo",
-      level: "Advanced Level Education",
+      institution: "D. S. Senanayake College, Colombo",
+      shortInstitution: "D.S. Senanayake College",
       duration: "2022/2023",
       location: "Colombo, Sri Lanka",
       status: "Completed",
       progress: 100,
-      highlights: ["Accounting", "Economics", "ICT", "Business Studies"],
-      icon: HiFire,
-      accentColor: "green",
-      type: "advanced"
+      level: "Advanced Level Education",
+      logo: "/images/schools/ds-senanayake-logo.png" // Add your D.S. Senanayake logo here
     },
     {
       id: 3,
       degree: "G.C.E. Ordinary Level",
-      shortTitle: "O/L FOUNDATION",
       specialization: "General Education",
-      institution: "I-GATE College",
-      fullInstitution: "I-GATE College, Thalawathugoda",
-      level: "Secondary Education",
+      institution: "I-GATE College, Thalawathugoda",
+      shortInstitution: "I-GATE College",
       duration: "2019",
       location: "Thalawathugoda, Sri Lanka",
       status: "Completed",
       progress: 100,
-      highlights: ["Mathematics", "Science", "English", "ICT"],
-      icon: HiLightningBolt,
-      accentColor: "orange",
-      type: "ordinary"
+      level: "Secondary Education",
+      logo: "/images/schools/igate-logo.png" // Add your I-GATE logo here
     }
   ];
 
@@ -74,11 +59,11 @@ const Education = () => {
             const index = parseInt(entry.target.getAttribute('data-index') || '0');
             setTimeout(() => {
               setVisibleItems(prev => [...prev, index]);
-            }, index * 300);
+            }, index * 200);
           }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.1 }
     );
 
     const cards = sectionRef.current?.querySelectorAll('.education-card');
@@ -87,123 +72,131 @@ const Education = () => {
     return () => observer.disconnect();
   }, []);
 
-  const getAccentClasses = (color: string) => {
-    const colorMap = {
-      blue: {
-        icon: 'bg-secondary',
-        text: 'text-secondary',
-        border: 'border-secondary/30',
-        bg: 'bg-secondary/10',
-        hover: 'hover:border-secondary',
-        progress: 'bg-secondary'
-      },
-      green: {
-        icon: 'bg-secondary',
-        text: 'text-secondary',
-        border: 'border-secondary/30',
-        bg: 'bg-secondary/10',
-        hover: 'hover:border-secondary',
-        progress: 'bg-secondary'
-      },
-      orange: {
-        icon: 'bg-secondary',
-        text: 'text-secondary',
-        border: 'border-secondary/30',
-        bg: 'bg-secondary/10',
-        hover: 'hover:border-secondary',
-        progress: 'bg-secondary'
-      }
-    };
-    return colorMap[color as keyof typeof colorMap];
-  };
-
   return (
     <section id="education" ref={sectionRef} className="relative py-20 overflow-hidden bg-black">
       <div className="relative z-10 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        {/* Professional Header */}
-        <div className="mb-20 text-center">
-          <div className="inline-flex items-center gap-3 px-6 py-3 mb-8 border rounded-full bg-white/10 border-white/20 backdrop-blur-sm">
-            <HiAcademicCap className="w-5 h-5 text-white" />
-            <span className="font-sans text-sm font-semibold tracking-wide text-white uppercase">Academic Background</span>
+        {/* Clean Header */}
+        <div className="mb-16 text-center">
+          <div className="inline-flex items-center gap-3 px-5 py-2 mb-6 border rounded-full bg-white/5 border-white/10 backdrop-blur-sm">
+            <HiAcademicCap className="w-4 h-4 text-secondary" />
+            <span className="font-sans text-sm font-medium tracking-wide text-white">Education</span>
           </div>
           
-          <h2 className="mb-6 text-5xl font-bold tracking-tight text-white md:text-6xl font-heading">
-            Education
+          <h2 className="mb-4 text-4xl font-bold tracking-tight text-white md:text-5xl font-heading">
+            Academic Journey
           </h2>
           
-          <p className="max-w-3xl mx-auto font-sans text-lg leading-relaxed text-gray-300">
-            Building a strong foundation through comprehensive academic excellence and 
-            continuous learning in technology and business domains.
+          <p className="max-w-2xl mx-auto font-sans text-lg leading-relaxed text-gray-300">
+            Building expertise through continuous learning and academic excellence in technology and business.
           </p>
         </div>
 
-        {/* Education Cards */}
-        <div className="grid grid-cols-1 gap-8 mb-16 lg:grid-cols-3">
-          {education.map((edu, index) => {
-            const isVisible = visibleItems.includes(index);
-            const IconComponent = edu.icon;
-            const colors = getAccentClasses(edu.accentColor);
-            
-            return (
-              <div
-                key={edu.id}
-                data-index={index}
-                className={`education-card transform transition-all duration-700 ${
-                  isVisible 
-                    ? 'translate-y-0 opacity-100 scale-100' 
-                    : 'translate-y-10 opacity-0 scale-95'
-                }`}
-                style={{ transitionDelay: `${index * 200}ms` }}
-              >
-                {/* Main Card */}
-                <div className={`relative bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/20 ${colors.hover} transition-all duration-500 hover:bg-white/10 hover:scale-[1.02] hover:-translate-y-2 hover:shadow-2xl hover:shadow-white/10 group`}>
-                  
-                  {/* Progress Bar */}
-                  <div className="absolute top-0 left-0 right-0 h-1 overflow-hidden bg-gray-800 rounded-t-2xl">
-                    <div 
-                      className={`h-full ${colors.progress} transition-all duration-1500 ease-out group-hover:shadow-lg group-hover:shadow-white/30`}
-                      style={{ width: isVisible ? `${edu.progress}%` : '0%' }}
-                    ></div>
-                  </div>
-
-                  {/* Header */}
-                  <div className="flex items-center justify-between mb-6">
-                    <div className={`w-14 h-14 ${colors.icon} rounded-xl flex items-center justify-center group-hover:scale-125 group-hover:rotate-6 transition-all duration-500`}>
-                      <IconComponent className="text-black w-7 h-7" />
+        {/* Education Timeline */}
+        <div className="relative max-w-4xl mx-auto">
+          {/* Timeline Line */}
+          <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-secondary/50 via-secondary/30 to-transparent hidden md:block"></div>
+          
+          <div className="space-y-8">
+            {education.map((edu, index) => {
+              const isVisible = visibleItems.includes(index);
+              
+              return (
+                <div
+                  key={edu.id}
+                  data-index={index}
+                  className={`education-card transform transition-all duration-700 ease-out ${
+                    isVisible 
+                      ? 'translate-y-0 opacity-100' 
+                      : 'translate-y-8 opacity-0'
+                  }`}
+                  style={{ transitionDelay: `${index * 150}ms` }}
+                >
+                  <div className="relative group">
+                    {/* Timeline Dot */}
+                    <div className="absolute left-0 top-8 w-16 h-16 hidden md:flex items-center justify-center">
+                      <div className="w-4 h-4 bg-secondary rounded-full border-4 border-black shadow-lg group-hover:scale-125 transition-transform duration-300"></div>
                     </div>
-                    <div className="text-right">
-                      <div className={`text-xs font-bold ${colors.text} tracking-wider`}>
-                        {edu.shortTitle}
+                    
+                    {/* Card */}
+                    <div className="md:ml-20 bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all duration-500 hover:bg-white/8 group-hover:shadow-xl group-hover:shadow-white/5">
+                      {/* Progress Bar */}
+                      <div className="absolute top-0 left-0 right-0 h-1 bg-gray-800 rounded-t-2xl overflow-hidden">
+                        <div 
+                          className="h-full bg-secondary transition-all duration-1000 ease-out"
+                          style={{ width: isVisible ? `${edu.progress}%` : '0%' }}
+                        ></div>
                       </div>
-                      <div className="text-xs text-gray-500">{edu.duration}</div>
-                    </div>
-                  </div>
 
-                  {/* Content */}
-                  <div className="mb-6">
-                    <h3 className="mb-2 text-xl font-bold text-white transition-colors duration-300 group-hover:text-gray-100 font-heading">
-                      {edu.degree}
-                    </h3>
-                    <p className={`${colors.text} font-medium mb-2 text-sm font-sans`}>{edu.specialization}</p>
-                    <p className="font-sans font-medium text-gray-300">{edu.institution}</p>
-                    <p className="mt-1 font-sans text-xs text-gray-500">{edu.level}</p>
-                  </div>
+                      {/* Header */}
+                      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
+                        <div className="flex items-start gap-4 flex-1">
+                          {/* School Logo */}
+                          <div className="flex-shrink-0">
+                            <div className="w-16 h-16 bg-white/10 rounded-xl border border-white/20 p-2 group-hover:bg-white/15 transition-all duration-300 overflow-hidden">
+                              <img
+                                src={edu.logo}
+                                alt={`${edu.shortInstitution} logo`}
+                                className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
+                                onError={(e) => {
+                                  // Fallback to academic cap icon if logo fails to load
+                                  const target = e.target as HTMLImageElement;
+                                  target.style.display = 'none';
+                                  const fallback = target.nextElementSibling as HTMLElement;
+                                  if (fallback) fallback.style.display = 'flex';
+                                }}
+                              />
+                              <div className="w-full h-full items-center justify-center hidden">
+                                <HiAcademicCap className="w-8 h-8 text-secondary" />
+                              </div>
+                            </div>
+                          </div>
+                          
+                          {/* Education Details */}
+                          <div className="flex-1">
+                            <h3 className="text-2xl font-bold text-white mb-2 font-heading group-hover:text-gray-100 transition-colors duration-300">
+                              {edu.degree}
+                            </h3>
+                            <p className="text-secondary font-medium text-sm font-sans mb-1">
+                              {edu.specialization}
+                            </p>
+                            <p className="text-gray-300 font-medium font-sans">
+                              {edu.institution}
+                            </p>
+                            <p className="text-gray-500 text-sm font-sans mt-1">
+                              {edu.level}
+                            </p>
+                          </div>
+                        </div>
+                        
+                        <div className="text-right">
+                          <div className="inline-flex items-center gap-2 px-3 py-1 bg-secondary/10 border border-secondary/20 rounded-full mb-2">
+                            <div className={`w-2 h-2 rounded-full ${
+                              edu.status === 'In Progress' ? 'bg-secondary animate-pulse' : 'bg-green-400'
+                            }`}></div>
+                            <span className="text-xs font-medium text-white font-sans">
+                              {edu.status}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
 
-                  {/* Meta Information */}
-                  <div className="flex items-center justify-between text-xs">
-                    <div className="flex items-center gap-2 font-sans text-gray-400">
-                      <HiCalendar className="w-3 h-3" />
-                      <span>{edu.duration}</span>
-                    </div>
-                    <div className="flex items-center gap-2 font-sans text-gray-400">
-                      <HiLocationMarker className="w-3 h-3" />
-                      <span>{edu.location}</span>
+                      {/* Meta Information */}
+                      <div className="flex flex-wrap gap-6 text-sm">
+                        <div className="flex items-center gap-2 text-gray-400 font-sans">
+                          <HiCalendar className="w-4 h-4 text-secondary" />
+                          <span>{edu.duration}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-gray-400 font-sans">
+                          <HiLocationMarker className="w-4 h-4 text-secondary" />
+                          <span>{edu.location}</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
