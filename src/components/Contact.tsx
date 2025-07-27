@@ -59,8 +59,8 @@ const Contact: React.FC = () => {
         </svg>
       ),
       label: 'Phone',
-      value: '+1 (555) 123-4567',
-      link: 'tel:+15551234567',
+      value: '+94 70 209 3945',
+      link: 'tel:+94702093945',
     },
     {
       icon: (
@@ -70,7 +70,7 @@ const Contact: React.FC = () => {
         </svg>
       ),
       label: 'Location',
-      value: 'San Francisco, CA',
+      value: 'Colombo, Sri Lanka',
       link: '',
     },
   ]

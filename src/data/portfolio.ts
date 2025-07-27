@@ -108,7 +108,7 @@ export const education: Education[] = [
     id: '1',
     degree: 'Bachelor of Science in Computer Science',
     institution: 'University of Technology',
-    location: 'San Francisco, CA',
+    location: 'Colombo, Sri Lanka',
     startDate: '2016-09',
     endDate: '2020-05',
     description: 'Focused on software engineering, data structures, and algorithms',

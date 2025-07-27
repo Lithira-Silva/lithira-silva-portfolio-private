@@ -4,17 +4,17 @@ import { HiCode, HiServer, HiColorSwatch, HiDocument, HiChat } from 'react-icons
 const About = () => {
   const highlights = [
     {
-      icon: <HiCode className="w-8 h-8 text-secondary group-hover:text-secondary-light transition-colors duration-300" />,
+      icon: <HiCode className="w-8 h-8 transition-colors duration-300 text-secondary group-hover:text-secondary-light" />,
       title: 'Frontend Development',
       description: 'Creating responsive and interactive user interfaces with modern frameworks'
     },
     {
-      icon: <HiServer className="w-8 h-8 text-secondary group-hover:text-secondary-light transition-colors duration-300" />,
+      icon: <HiServer className="w-8 h-8 transition-colors duration-300 text-secondary group-hover:text-secondary-light" />,
       title: 'Backend Development',
       description: 'Building robust server-side applications and APIs'
     },
     {
-      icon: <HiColorSwatch className="w-8 h-8 text-secondary group-hover:text-secondary-light transition-colors duration-300" />,
+      icon: <HiColorSwatch className="w-8 h-8 transition-colors duration-300 text-secondary group-hover:text-secondary-light" />,
       title: 'UI/UX Design',
       description: 'Designing user-centered experiences with attention to detail'
     }
@@ -40,15 +40,15 @@ const About = () => {
 
   return (
     <section id="about" className="py-20 bg-black">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="grid items-center grid-cols-1 gap-12 lg:grid-cols-2">
           <div className="space-y-8">
             <div>
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 font-heading">About Me</h2>
-              <p className="text-xl text-gray-300 mb-6 font-heading font-light">Aspiring Full-Stack Developer & IT Undergraduate</p>
+              <h2 className="mb-4 text-4xl font-bold text-white md:text-5xl font-heading">About Me</h2>
+              <p className="mb-6 text-xl font-light text-gray-300 font-heading">Aspiring Full-Stack Developer & IT Undergraduate</p>
             </div>
             
-            <p className="text-lg text-gray-300 leading-relaxed font-sans">
+            <p className="font-sans text-lg leading-relaxed text-gray-300">
               Aspiring Full-Stack Developer and current IT undergraduate at SLIIT, actively seeking internships in software 
               engineering, web and mobile application development, and cloud-based solutions. Skilled in Java, Python, C++, PHP, 
               JavaScript, and the MERN stack, with strong academic grounding in SDLC, OOP, responsive design, and server-side 
@@ -56,28 +56,36 @@ const About = () => {
               real-world, collaborative projects in innovative technology environments.
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               {highlights.map((highlight, index) => (
-                <div key={index} className="text-center p-6 hover:bg-white/10 transition-all duration-500 group rounded-lg border border-transparent hover:border-secondary/30 hover:shadow-xl hover:shadow-secondary/10 transform hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
-                  <div className="flex justify-center mb-3 group-hover:scale-125 transition-transform duration-500">{highlight.icon}</div>
-                  <h3 className="text-white font-semibold mb-2 font-heading group-hover:text-secondary transition-colors duration-300">{highlight.title}</h3>
-                  <p className="text-gray-400 text-sm font-sans group-hover:text-gray-300 transition-colors duration-300">{highlight.description}</p>
-                  <div className="absolute inset-0 bg-gradient-to-t from-secondary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></div>
+                <div key={index} className="relative p-6 overflow-hidden text-center transition-all duration-300 transform border border-white/10 rounded-xl hover:bg-white/5 group hover:border-secondary/40 hover:shadow-lg hover:shadow-secondary/20 hover:scale-[1.02] backdrop-blur-sm">
+                  <div className="flex justify-center mb-4 transition-all duration-300 group-hover:scale-110 group-hover:text-secondary-light">{highlight.icon}</div>
+                  <h3 className="mb-3 font-semibold text-white transition-colors duration-300 font-heading group-hover:text-secondary">{highlight.title}</h3>
+                  <p className="font-sans text-sm leading-relaxed text-gray-400 transition-colors duration-300 group-hover:text-gray-300">{highlight.description}</p>
+                  <div className="absolute inset-0 transition-opacity duration-300 opacity-0 rounded-xl bg-gradient-to-br from-secondary/10 via-secondary/5 to-transparent group-hover:opacity-100"></div>
+                  <div className="absolute -inset-0.5 bg-gradient-to-r from-secondary/20 to-secondary/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 blur-sm"></div>
                 </div>
               ))}
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button onClick={downloadResume}>
-                <span className="flex items-center gap-2">
-                  Download Resume
-                  <HiDocument className="w-4 h-4 text-black" />
+            <div className="flex flex-col gap-4 sm:flex-row">
+              <Button 
+                onClick={downloadResume}
+                className="transition-all duration-300 group hover:shadow-lg hover:shadow-secondary/20"
+              >
+                <span className="flex items-center gap-3">
+                  <span className="font-medium">Download Resume</span>
+                  <HiDocument className="w-4 h-4 text-black transition-transform duration-300 group-hover:translate-x-0.5" />
                 </span>
               </Button>
-              <Button variant="outline" onClick={scrollToContact}>
-                <span className="flex items-center gap-2 group-hover:text-black transition-colors duration-300">
-                  Let's Talk
-                  <HiChat className="w-4 h-4 group-hover:text-black transition-colors duration-300" />
+              <Button 
+                variant="outline" 
+                onClick={scrollToContact}
+                className="transition-all duration-300 group hover:shadow-lg hover:shadow-secondary/20"
+              >
+                <span className="flex items-center gap-3 transition-colors duration-300 group-hover:text-black">
+                  <span className="font-medium">Let's Talk</span>
+                  <HiChat className="w-4 h-4 transition-all duration-300 group-hover:text-black group-hover:scale-110" />
                 </span>
               </Button>
             </div>
@@ -88,9 +96,10 @@ const About = () => {
               <img
                 src="https://via.placeholder.com/280x280/666666/ffffff?text=Your+Photo"
                 alt="Profile"
-                className="w-72 h-72 rounded-2xl object-cover shadow-2xl border-4 border-white/20 transition-all duration-500 group-hover:scale-105 group-hover:shadow-3xl group-hover:shadow-white/20 group-hover:border-white/40"
+                className="object-cover transition-all duration-500 border-4 shadow-xl w-72 h-72 rounded-2xl border-white/20 group-hover:scale-[1.03] group-hover:shadow-2xl group-hover:shadow-white/10 group-hover:border-white/30"
               />
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 transition-opacity duration-500 opacity-0 rounded-2xl bg-gradient-to-t from-black/20 via-transparent to-transparent group-hover:opacity-100"></div>
+              <div className="absolute transition-all duration-500 opacity-0 -inset-1 bg-gradient-to-r from-secondary/30 to-secondary/10 rounded-2xl group-hover:opacity-100 -z-10 blur-md"></div>
             </div>
           </div>
         </div>
