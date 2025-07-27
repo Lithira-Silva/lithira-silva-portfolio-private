@@ -2,10 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { 
   HiAcademicCap, 
   HiLocationMarker, 
-  HiStar, 
   HiTrendingUp,
-  HiBookOpen,
-  HiCheckCircle,
   HiFire,
   HiLightningBolt,
   HiCalendar
@@ -169,23 +166,6 @@ const Education = () => {
                     ></div>
                   </div>
 
-                  {/* Status Badge */}
-                  <div className={`absolute -top-3 -right-3 px-4 py-2 ${colors.bg} ${colors.border} border rounded-full backdrop-blur-sm group-hover:scale-110 transition-transform duration-300`}>
-                    <div className="flex items-center gap-2 font-sans text-xs font-semibold">
-                      {edu.status === 'In Progress' ? (
-                        <>
-                          <div className={`w-2 h-2 ${colors.icon} rounded-full animate-pulse`}></div>
-                          <span className={colors.text}>ACTIVE</span>
-                        </>
-                      ) : (
-                        <>
-                          <HiCheckCircle className={`w-3 h-3 ${colors.text}`} />
-                          <span className={colors.text}>COMPLETED</span>
-                        </>
-                      )}
-                    </div>
-                  </div>
-
                   {/* Header */}
                   <div className="flex items-center justify-between mb-6">
                     <div className={`w-14 h-14 ${colors.icon} rounded-xl flex items-center justify-center group-hover:scale-125 group-hover:rotate-6 transition-all duration-500`}>
@@ -209,30 +189,6 @@ const Education = () => {
                     <p className="mt-1 font-sans text-xs text-gray-500">{edu.level}</p>
                   </div>
 
-                  {/* Highlights */}
-                  <div className="mb-6">
-                    <h4 className="flex items-center gap-2 mb-3 font-sans text-sm font-medium text-white">
-                      <HiStar className="w-4 h-4 transition-colors duration-300 text-secondary group-hover:text-secondary-light" />
-                      Key Areas
-                    </h4>
-                    <div className="grid grid-cols-2 gap-2">
-                      {edu.highlights.map((highlight, idx) => (
-                        <div
-                          key={idx}
-                          className={`flex items-center gap-2 text-xs text-gray-300 transition-all duration-300 ${
-                            isVisible ? 'translate-x-0 opacity-100' : '-translate-x-2 opacity-0'
-                          }`}
-                          style={{ 
-                            transitionDelay: `${(index * 200) + (idx * 100)}ms` 
-                          }}
-                        >
-                          <div className={`w-1.5 h-1.5 ${colors.icon} rounded-full`}></div>
-                          <span className="font-sans font-medium">{highlight}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
                   {/* Meta Information */}
                   <div className="flex items-center justify-between text-xs">
                     <div className="flex items-center gap-2 font-sans text-gray-400">
@@ -248,45 +204,6 @@ const Education = () => {
               </div>
             );
           })}
-        </div>
-
-        {/* Professional Stats */}
-        <div className="text-center">
-          <div className="grid max-w-4xl grid-cols-1 gap-8 mx-auto md:grid-cols-3">
-            {[
-              { 
-                label: "Years of Education", 
-                value: "5+", 
-                icon: HiTrendingUp,
-                color: "blue"
-              },
-              { 
-                label: "Institutions", 
-                value: "3", 
-                icon: HiAcademicCap,
-                color: "green"
-              },
-              { 
-                label: "Subject Areas", 
-                value: "12+", 
-                icon: HiBookOpen,
-                color: "orange"
-              }
-            ].map((stat, index) => {
-              const colors = getAccentClasses(stat.color);
-              return (
-                <div
-                  key={index}
-                  className="p-6 transition-all duration-500 transform border bg-white/5 backdrop-blur-sm rounded-xl border-white/20 hover:border-white hover:bg-white/10 group hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-white/10"
-                >
-                  <stat.icon className={`w-8 h-8 ${colors.text} mx-auto mb-4 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500`} />
-                  <div className="mb-2 text-3xl font-bold text-white transition-colors duration-300 font-heading group-hover:text-gray-200">{stat.value}</div>
-                  <div className="font-sans text-sm font-medium text-gray-300 transition-colors duration-300 group-hover:text-gray-200">{stat.label}</div>
-                  <div className="absolute inset-0 transition-opacity duration-500 opacity-0 bg-gradient-to-t from-white/10 to-transparent group-hover:opacity-100 rounded-xl"></div>
-                </div>
-              );
-            })}
-          </div>
         </div>
       </div>
     </section>
