@@ -90,7 +90,19 @@ const About = () => {
           <div className="flex justify-center lg:justify-end">
             <div className="relative group">
               <div className="w-80 h-80 rounded-full overflow-hidden shadow-2xl border-4 border-secondary/50 transition-all duration-500 group-hover:scale-105 group-hover:shadow-secondary/30 group-hover:border-secondary/70">
-                <div className="w-full h-full bg-gradient-to-br from-primary-100 to-primary-200 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center">
+                <img
+                  src="/images/profile/pro%20pic.jpg"
+                  alt="Lithira Silva - Profile Photo"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  onError={(e) => {
+                    // Fallback to placeholder if image fails to load
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    const fallback = target.nextElementSibling as HTMLElement;
+                    if (fallback) fallback.style.display = 'flex';
+                  }}
+                />
+                <div className="w-full h-full bg-gradient-to-br from-primary-100 to-primary-200 dark:from-gray-700 dark:to-gray-600 items-center justify-center hidden">
                   <span className="text-gray-500 dark:text-gray-400 text-lg font-sans">Profile Photo</span>
                 </div>
               </div>

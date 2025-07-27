@@ -48,7 +48,19 @@ const About: React.FC = () => {
             <div className="flex justify-center order-1 md:order-2">
               <div className="relative">
                 <div className="overflow-hidden transition-transform duration-500 border-4 rounded-full shadow-2xl w-72 h-72 border-secondary/50 hover:scale-105 hover:shadow-secondary/30">
-                  <div className="flex items-center justify-center w-full h-full bg-gradient-to-br from-primary-100 to-primary-200 dark:from-gray-700 dark:to-gray-600">
+                  <img
+                    src="/images/profile/pro pic.jpg"
+                    alt="Lithira Silva - Profile Photo"
+                    className="object-cover w-full h-full transition-transform duration-500 hover:scale-110"
+                    onError={(e) => {
+                      // Fallback to initials if image fails to load
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                      const fallback = target.nextElementSibling as HTMLElement;
+                      if (fallback) fallback.style.display = 'flex';
+                    }}
+                  />
+                  <div className="items-center justify-center hidden w-full h-full bg-gradient-to-br from-primary-100 to-primary-200 dark:from-gray-700 dark:to-gray-600">
                     <div className="text-6xl font-bold text-primary-500">LS</div>
                   </div>
                 </div>

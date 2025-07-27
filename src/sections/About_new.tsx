@@ -94,9 +94,14 @@ const About = () => {
           <div className="flex justify-center lg:justify-end">
             <div className="relative group">
               <img
-                src="https://via.placeholder.com/280x280/666666/ffffff?text=Your+Photo"
-                alt="Profile"
+                src="/images/profile/profile-photo.jpg"
+                alt="Lithira Silva - Profile Photo"
                 className="object-cover transition-all duration-500 border-4 shadow-xl w-72 h-72 rounded-2xl border-white/20 group-hover:scale-[1.03] group-hover:shadow-2xl group-hover:shadow-white/10 group-hover:border-white/30"
+                onError={(e) => {
+                  // Fallback to placeholder if image fails to load
+                  const target = e.target as HTMLImageElement;
+                  target.src = "https://via.placeholder.com/280x280/666666/ffffff?text=Your+Photo";
+                }}
               />
               <div className="absolute inset-0 transition-opacity duration-500 opacity-0 rounded-2xl bg-gradient-to-t from-black/20 via-transparent to-transparent group-hover:opacity-100"></div>
               <div className="absolute transition-all duration-500 opacity-0 -inset-1 bg-gradient-to-r from-secondary/30 to-secondary/10 rounded-2xl group-hover:opacity-100 -z-10 blur-md"></div>
