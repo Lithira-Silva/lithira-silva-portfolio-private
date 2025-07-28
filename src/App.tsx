@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect } from 'react'
 import Header from './sections/Header'
 import Hero from './sections/Hero'
 import About from './sections/About'
@@ -12,12 +12,17 @@ import ScrollProgress from './components/ScrollProgress'
 import './styles/globals.css'
 
 function App() {
+  // Ensure page loads at the top
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   return (
     <div className="min-h-screen text-white transition-colors duration-300 bg-black">
       <ScrollProgress />
       <StarField />
       <Header />
-      <main>
+      <main className="relative">
         <Hero />
         <About />
         <Education />

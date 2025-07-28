@@ -20,6 +20,20 @@ body {
   background: #0a0a0a;
   overflow-x: hidden;
   position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* Ensure hero section is always at the top */
+#hero {
+  position: relative;
+  top: 0;
 }
 
 /* Smooth page transitions */
