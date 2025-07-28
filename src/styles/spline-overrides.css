@@ -1,0 +1,47 @@
+/* Spline Watermark Hide Styles */
+
+/* Hide Spline watermark elements */
+[data-spline-watermark],
+.spline-watermark,
+a[href*="spline.design"],
+a[href*="Built with Spline"],
+div[style*="position: absolute"][style*="bottom"] a[href*="spline"],
+div[style*="position: fixed"][style*="bottom"] a[href*="spline"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
+}
+
+/* Hide common watermark containers */
+div[style*="position: absolute"][style*="z-index"][style*="bottom: 16px"],
+div[style*="position: fixed"][style*="z-index"][style*="bottom: 16px"],
+div[style*="position: absolute"][style*="bottom: 0"][style*="right: 0"],
+div[style*="position: fixed"][style*="bottom: 0"][style*="right: 0"] {
+  display: none !important;
+}
+
+/* Hide any links containing spline in bottom positioned elements */
+div[style*="position: absolute"][style*="bottom"] a,
+div[style*="position: fixed"][style*="bottom"] a {
+  display: none !important;
+}
+
+/* Alternative masking approach */
+.spline-container {
+  mask: linear-gradient(to bottom, black 96%, transparent 100%) !important;
+  -webkit-mask: linear-gradient(to bottom, black 96%, transparent 100%) !important;
+}
+
+/* Ensure canvas takes full space and hides overflow */
+canvas {
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* Hide any text containing "Built with Spline" */
+*:contains("Built with Spline"),
+*:contains("spline.design") {
+  display: none !important;
+}

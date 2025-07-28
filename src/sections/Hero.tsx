@@ -144,10 +144,11 @@ const Hero: React.FC = () => {
 
           {/* Right Column - 3D Model */}
           <div className="hidden lg:flex justify-center items-center">
-            <div className="w-full max-w-lg h-96 lg:h-[500px] xl:h-[600px]">
+            <div className="w-full max-w-lg h-96 lg:h-[500px] xl:h-[600px] spline-container">
               <SplineModel
-                scene="https://prod.spline.design/3xNL6WKYw82VJqZd/scene.splinecode"
+                scene="https://prod.spline.design/t-1FdGAk4FZQIkpA/scene.splinecode"
                 className="w-full h-full rounded-2xl"
+                colorFilter="warm"
                 onLoad={() => console.log('3D model loaded successfully')}
                 onError={(error) => console.error('3D model failed to load:', error)}
               />
